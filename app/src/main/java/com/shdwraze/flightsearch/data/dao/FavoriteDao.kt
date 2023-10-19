@@ -16,6 +16,6 @@ interface FavoriteDao {
     @Delete
     suspend fun delete(favorite: Favorite)
 
-    @Query("select * from favorites order by departureCode asc")
+    @Query("select * from favorite order by departure_code asc")
     fun getFavorites(): Flow<List<Favorite>>
 }
