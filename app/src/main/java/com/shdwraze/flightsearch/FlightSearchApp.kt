@@ -1,7 +1,7 @@
 package com.shdwraze.flightsearch
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -39,9 +39,11 @@ fun FlightSearchApp(
         Surface(
             modifier = Modifier.padding(innerPadding)
         ) {
-            Column {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 SearchField(
-                    modifier = Modifier.padding(PaddingValues(16.dp)),
                     textState = textState,
                     onCloseButtonClick = {
                         textState = TextFieldValue("")
@@ -53,7 +55,9 @@ fun FlightSearchApp(
                 )
 
                 if (textState.text.isNotEmpty()) {
-                    AirportsScreen(airports = airportUiState.value.airports)
+                    AirportsScreen(
+                        airports = airportUiState.value.airports
+                    )
                 }
             }
         }
