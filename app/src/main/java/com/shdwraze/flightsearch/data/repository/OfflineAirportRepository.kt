@@ -11,4 +11,7 @@ class OfflineAirportRepository(
 
     override fun getAirportSearchStream(query: String): Flow<List<Airport>> =
         airportDao.getAirportsLikeQuery(query)
+
+    override fun getAirportsExceptQuery(query: String): Flow<List<Airport>> =
+        airportDao.getAirportsExceptQuery(query)
 }

@@ -11,8 +11,11 @@ interface AirportDao {
     fun getAirports(): Flow<List<Airport>>
 
     @Query(
-        "select * from airport where name like + '%' || :query || '%' or " +
+        "select * from airport where name like '%' || :query || '%' or " +
                 "iata_code like '%' || :query || '%' order by passengers desc"
     )
     fun getAirportsLikeQuery(query: String): Flow<List<Airport>>
+
+    @Query("select * from airport where iata_code <> :query order by name asc")
+    fun getAirportsExceptQuery(query: String): Flow<List<Airport>>
 }
