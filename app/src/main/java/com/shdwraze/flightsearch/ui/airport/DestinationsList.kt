@@ -7,22 +7,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.shdwraze.flightsearch.data.model.Airport
-import com.shdwraze.flightsearch.ui.airport.component.FlightFromCard
+import com.shdwraze.flightsearch.ui.airport.component.DestinationCard
 
 @Composable
 fun DestinationsList(
     departureAirport: Airport,
     destinations: List<Airport>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAddToFavoriteClick: (Airport, Airport) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(destinations) { destination ->
-            FlightFromCard(
+            DestinationCard(
                 departAirport = departureAirport,
-                arriveAirport = destination
+                destinationAirport = destination,
+                onAddToFavoriteClick = onAddToFavoriteClick
             )
         }
     }

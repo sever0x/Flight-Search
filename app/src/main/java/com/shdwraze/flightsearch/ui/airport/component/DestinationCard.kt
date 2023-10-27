@@ -1,5 +1,6 @@
 package com.shdwraze.flightsearch.ui.airport.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,10 +28,11 @@ import androidx.compose.ui.unit.sp
 import com.shdwraze.flightsearch.data.model.Airport
 
 @Composable
-fun FlightFromCard(
+fun DestinationCard(
     modifier: Modifier = Modifier,
     departAirport: Airport,
-    arriveAirport: Airport
+    destinationAirport: Airport,
+    onAddToFavoriteClick: (Airport, Airport) -> Unit
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -51,13 +53,20 @@ fun FlightFromCard(
                 CardTextLabel(iataCode = departAirport.iataCode, name = departAirport.name)
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(text = "ARRIVE")
-                CardTextLabel(iataCode = arriveAirport.iataCode, name = arriveAirport.name)
+                CardTextLabel(
+                    iataCode = destinationAirport.iataCode,
+                    name = destinationAirport.name
+                )
             }
             Box(modifier = Modifier.size(48.dp)) {
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            onAddToFavoriteClick(departAirport, destinationAirport)
+                        },
                     tint = Color.Gray
                 )
             }

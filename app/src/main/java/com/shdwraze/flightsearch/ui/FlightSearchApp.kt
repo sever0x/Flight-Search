@@ -84,7 +84,8 @@ fun FlightSearchApp(
                     flightSearchUiState.value.departure?.let {
                         DestinationsList(
                             departureAirport = it,
-                            destinations = flightSearchUiState.value.destinations
+                            destinations = flightSearchUiState.value.destinations,
+                            onAddToFavoriteClick = flightSearchViewModel::addDestinationToFavorite
                         )
                     }
                 }
