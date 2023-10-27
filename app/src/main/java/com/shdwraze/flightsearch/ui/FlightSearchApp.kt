@@ -69,7 +69,6 @@ fun FlightSearchApp(
                         isShowDestinations = false
                     },
                     onClickSearchAction = {
-                        isShowSearchResults = false
                         hideKeyboardAndClearFocus()
                     }
                 )
@@ -79,8 +78,8 @@ fun FlightSearchApp(
                         airports = flightSearchUiState.value.airports,
                         onDepartureClick = {
                             hideKeyboardAndClearFocus()
-                            isShowDestinations = !isShowDestinations
                             isShowSearchResults = false
+                            isShowDestinations = true
                             flightSearchViewModel.getDestinations(it)
                         }
                     )

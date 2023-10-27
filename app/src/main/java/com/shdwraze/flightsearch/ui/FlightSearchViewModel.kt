@@ -15,8 +15,6 @@ import kotlinx.coroutines.launch
 
 class FlightSearchViewModel(private val airportRepository: AirportRepository) : ViewModel() {
 
-    private val airportQueryFlow = MutableStateFlow("")
-
     private val _flightSearchUiState = MutableStateFlow(FlightSearchUiState())
     val flightSearchUiState: StateFlow<FlightSearchUiState> = _flightSearchUiState
 
@@ -26,9 +24,9 @@ class FlightSearchViewModel(private val airportRepository: AirportRepository) : 
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun updateSearchResult() {
-        airportQueryFlow.flatMapLatest { query ->
-            airportRepository.getAirportSearchStream(query)
-                .map { FlightSearchUiState(it) }
+        flightSearchUiState.flatMapLatest { state ->
+            airportRepository.getAirportSearchStream(state.searchQuery)
+                .map { airports -> state.copy(airports = airports) }
         }
             .onEach {
                 _flightSearchUiState.value = it
@@ -48,10 +46,8 @@ class FlightSearchViewModel(private val airportRepository: AirportRepository) : 
     }
 
     fun updateSearchQuery(query: String) {
-        airportQueryFlow.value = query
-    }
-
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
+        _flightSearchUiState.value = _flightSearchUiState.value.copy(
+            searchQuery = query
+        )
     }
 }
