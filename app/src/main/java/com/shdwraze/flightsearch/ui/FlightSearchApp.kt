@@ -32,9 +32,6 @@ fun FlightSearchApp(
 ) {
     val flightSearchUiState = flightSearchViewModel.flightSearchUiState.collectAsState()
 
-    var isShowDestinations by remember { mutableStateOf(false) }
-    var isShowSearchResults by remember { mutableStateOf(false) }
-
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
@@ -65,27 +62,25 @@ fun FlightSearchApp(
                     onValueChange = {
                         textState = it
                         flightSearchViewModel.updateSearchQuery(it.text)
-                        isShowSearchResults = true
-                        isShowDestinations = false
+                        flightSearchViewModel.changeMode(Mode.SEARCH)
                     },
                     onClickSearchAction = {
                         hideKeyboardAndClearFocus()
                     }
                 )
 
-                if (textState.text.isNotEmpty() && isShowSearchResults) {
+                if (textState.text.isNotEmpty() && flightSearchUiState.value.mode == Mode.SEARCH) {
                     AirportsListScreen(
                         airports = flightSearchUiState.value.airports,
                         onDepartureClick = {
                             hideKeyboardAndClearFocus()
-                            isShowSearchResults = false
-                            isShowDestinations = true
+                            flightSearchViewModel.changeMode(Mode.DESTINATIONS)
                             flightSearchViewModel.getDestinations(it)
                         }
                     )
                 }
 
-                if (isShowDestinations) {
+                if (flightSearchUiState.value.mode == Mode.DESTINATIONS) {
                     flightSearchUiState.value.departure?.let {
                         DestinationsList(
                             departureAirport = it,

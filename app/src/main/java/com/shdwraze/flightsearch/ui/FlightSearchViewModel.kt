@@ -45,6 +45,12 @@ class FlightSearchViewModel(private val airportRepository: AirportRepository) : 
         }
     }
 
+    fun changeMode(mode: Mode) {
+        _flightSearchUiState.value = _flightSearchUiState.value.copy(
+            mode = mode
+        )
+    }
+
     fun updateSearchQuery(query: String) {
         _flightSearchUiState.value = _flightSearchUiState.value.copy(
             searchQuery = query
